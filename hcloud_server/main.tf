@@ -1,6 +1,7 @@
 resource "hcloud_server" "servers" {
   name               = var.name
   image              = var.image
+  labels             = var.labels
   server_type        = var.server_type
   location           = var.location
   ssh_keys           = [var.ssh_key_id]

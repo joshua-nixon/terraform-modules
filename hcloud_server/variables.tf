@@ -28,3 +28,8 @@ variable "user_data" {
   default   = null
   sensitive = true
 }
+
+variable "labels" {
+  type    = map(string)
+  default = null
+}
