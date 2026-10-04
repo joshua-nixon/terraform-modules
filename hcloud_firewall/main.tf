@@ -7,12 +7,11 @@ locals {
   )
 
   firewall_rules = flatten([
-    for rule in var.firewall.rules : {
+    for rule in var.rules : {
         description = rule.description
         protocol    = rule.protocol
         port        = rule.port
-        source_ips  = lookup(local.cloudflare_ips, group, [])
-        group       = group
+        source_ips  = local.cloudflare_ips
     }
   ])
 }
