@@ -1,4 +1,4 @@
-resource "hcloud_server" "servers" {
+resource "hcloud_server" "this" {
   name               = var.name
   image              = var.image
   labels             = var.labels
