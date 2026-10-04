@@ -1,6 +1,11 @@
 locals {
   name         = "${var.name}-${var.location}-${var.server_type}"
   server_names = toset([for i in range(var.server_count) : "${local.name}-${format("%03d", i)}"])
+
+  labels = merge({
+    "server-pool" = var.name,
+    "managed-by" = "terraform"
+  }, var.labels == null ? {} : var.labels)
 }
 
 resource "hcloud_placement_group" "this" {
@@ -19,7 +24,7 @@ resource "hcloud_server" "servers" {
   placement_group_id = hcloud_placement_group.this.id
   keep_disk          = true
   user_data          = var.user_data
-  labels             = var.labels != null ? var.labels : {}
+  labels             = local.labels
 
   public_net {
     ipv4_enabled = true
