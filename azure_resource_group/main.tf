@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "this" {
   name      = var.name
-  location  = "uksouth"
+  location  = var.location
   tags      = module.common_resource_tags.all_tags
 }
 
