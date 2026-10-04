@@ -11,7 +11,7 @@ locals {
         description = rule.description
         protocol    = rule.protocol
         port        = rule.port
-        source_ips  = local.cloudflare_ips
+        source_ips  = rule.source_ips == null ? local.cloudflare_ips : rule.source_ips
     }
   ])
 }

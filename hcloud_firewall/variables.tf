@@ -7,6 +7,7 @@ variable "rules" {
       description = string
       protocol    = string
       port        = string
+      source_ips  = optional(list(string))
     }))
     default = []
 }
