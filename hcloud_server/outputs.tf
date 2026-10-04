@@ -5,3 +5,7 @@ output "name" {
 output "public_ipv4" {
     value = hcloud_server.this.ipv4_address
 }
+
+output "labels" {
+    value = hcloud_server.this.labels
+}
