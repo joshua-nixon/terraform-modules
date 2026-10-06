@@ -9,11 +9,10 @@ resource "azurerm_key_vault" "this" {
   tags                       = module.resource_tags.all_tags
 }
 
-module "rbac" {
-  source                = "../azure_resource_rbac"
-  scope                 = azurerm_key_vault.this.id
-  role_assignments      = var.rbac_role_assignments
-  rbac_principals       = var.rbac_principals
+module "azure_role_assignment_bundle" {
+  source           = "../azure_role_assignment_bundle"
+  scope            = azurerm_key_vault.this.id
+  role_assignments = var.rbac_role_assignments
 }
 
 module "resource_tags" {

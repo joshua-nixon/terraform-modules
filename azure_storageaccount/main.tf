@@ -1,15 +1,3 @@
-locals {
-  flat_role_assignments = flatten([
-    for role, principals in var.rbac_role_assignments : [
-      for principal_id in principals : {
-        key          = "${role}-${principal_id}"
-        role         = role
-        principal_id = principal_id
-      }
-    ]
-  ])
-}
-
 resource "azurerm_storage_account" "this" {
   name                            = var.name
   resource_group_name             = var.resource_group_name
@@ -21,11 +9,10 @@ resource "azurerm_storage_account" "this" {
   tags                            = module.resource_tags.all_tags
 }
 
-resource "azurerm_role_assignment" "this" {
-  for_each             = { for v in local.flat_role_assignments : v.key => v }
-  scope                = azurerm_storage_account.this.id
-  role_definition_name = each.value.role
-  principal_id         = each.value.principal_id
+module "azure_role_assignment_bundle" {
+  source           = "../azure_role_assignment_bundle"
+  scope            = azurerm_storage_account.this.id
+  role_assignments = var.rbac_role_assignments
 }
 
 module "resource_tags" {
